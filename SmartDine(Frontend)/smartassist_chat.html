@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDine AI Assistant - SmartAssist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- //<link rel="stylesheet" href="styles/style.css"> -->
+    <style>
+        :root {
+  --color-white: #ffffff;
+  --color-light: #fdfdfd;
+  --color-primary: #ff5722; /* Vibrant Coral */
+  --color-accent: #ff7043;
+  --color-text-dark: #333333; /* Deep Charcoal */
+  --color-text-light: #666666;
+  --font-primary: "Poppins", sans-serif;
+  --color-bg-chat: #f5f5f5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-light);
+  color: var(--color-text-dark);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: color 0.3s;
+}
+
+.site-header {
+  background-color: var(--color-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.brand {
+  font-size: 55px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center; 
+}
+
+#navRightArea {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: var(--color-text-dark);
+  font-weight: 600;
+  padding: 5px 0;
+}
+
+.nav-links .btn-order {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.nav-links .btn-order:hover {
+  background-color: var(--color-accent);
+}
+
+.user-profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.main-content {
+  display: flex;
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 0 20px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.recommendation-area {
+  flex: 1;
+  padding-right: 20px;
+  min-width: 450px;
+}
+
+.recommendation-area h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--color-text-dark);
+}
+
+.chat-column {
+  flex: 1;
+  min-width: 150px;
+}
+
+.chat-box {
+  height: 70vh;
+  max-height: 750px;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 20px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--color-bg-chat);
+}
+
+.message {
+  margin-bottom: 15px;
+  max-width: 85%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  line-height: 1.4;
+  display: table;
+}
+
+.ai-message {
+  background-color: var(--color-white);
+  border: 1px solid #ddd;
+  color: var(--color-text-dark);
+  margin-right: auto;
+  margin-left: 0;
+  border-bottom-left-radius: 4px;
+}
+
+.user-message {
+  background-color: var(--color-accent);
+  border: 1px solid #ddd;
+  color: var(--color-white);
+  margin-left: auto;
+  border: none;
+  margin-right: 0;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-input {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid #eee;
+  background-color: var(--color-white);
+}
+
+.chat-input input[type="text"] {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.chat-input button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.surprise-me-btn {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.surprise-me-btn:hover {
+  background-color: #e65100;
+}
+
+.suggestion-bubbles {
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+  padding: 10px 15px; 
+  background-color: var(--color-white);
+  border-top: 1px solid #eee;
+}
+
+.bubble-btn {
+  background-color: var(--color-bg-chat);
+  color: var(--color-text-light);
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.bubble-btn:hover {
+  background-color: #e8e8e8;
+  border-color: var(--color-primary);
+  color: var(--color-text-dark);
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.recommendation-card {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid var(--color-primary);
+}
+
+.card-image {
+  width: 100px;
+  height: 120px;
+  min-width: 80px;
+  background-color: var(--color-bg-chat);
+  border-radius: 6px;
+  margin-right: 15px;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-details {
+  flex-grow: 1;
+}
+
+.card-details h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 2px;
+}
+
+.card-details p {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin: 2px 0;
+}
+
+.card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-left: 15px;
+}
+
+#results-scroll-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 15px;
+}
+
+.sort-controls {
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.sort-controls label {
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-size: 1 rem;
+}
+
+#sort-by {
+  padding: 8px 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  border: 1px solid #ccc !important;
+  border-radius: 6px;
+
+  background-color: var(--color-white) !important;
+
+  cursor: pointer;
+  font-size: 1rem;
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") !important;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 35px;
+  min-width: 180px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#sort-by:hover {
+  border-color: var(--color-accent) !important;
+}
+
+#sort-by:focus {
+  outline: none;
+  border-color: var(
+    --color-primary
+  ) !important; 
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2); /* Light primary color glow */
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .recommendation-area,
+  .chat-column {
+    min-width: 100%;
+    padding-right: 0;
+  }
+  .chat-box {
+    height: 60vh;
+  }
+}
+    </style>
+
+</head>
+<body onload="checkAuth()"> 
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">SmartDine</div>
+            <nav class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="about.html">About Us</a>
+                
+                <div id="navRightArea">
+                    <a href="restaurant.html" class="btn-order"> Order Now </a>
+                    <a href="signin.html">Sign In</a> 
+                </div>
+                </nav>
+        </div>
+    </header>
+
+    <div class="main-content">
+
+        <div class="recommendation-area">
+            <h2>Recommended Dishes</h2>
+
+            <div class="sort-controls">
+                <label for="sort-by">Sort By:</label>
+                <select id="sort-by">
+                    <option value="default">Default (AI Score)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                    <option value="rating-desc">Rating (High to Low)</option>
+                </select>
+            </div>
+
+            <div id="results-scroll-wrapper">
+                <div class="card-list" id="recommendationList"> 
+                     
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-column">
+            <div class="chat-box">
+                <div class="chat-header">
+                    SmartAssist AI - Your Personal Food Guide 🤖
+                    <button id="surpriseMePersistentBtn" class="surprise-me-btn" style="display: none;">
+                        Surprise Me 🎁
+                    </button>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        Hello! I'm ready to find your next great meal. What are you craving today?
+                    </div>
+                </div>
+
+                <div class="suggestion-bubbles" id="suggestionBubbles">
+                    <button class="bubble-btn" data-action="surprise">Surprise me with a random dish</button>
+                </div>
+
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type your craving or question here...">
+                    <button id="sendButton">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/chat.js"></script> 
+
+    <script>
+        function updateNavForUser() {
+            const username = sessionStorage.getItem('username');
+            const navRightArea = document.getElementById('navRightArea');
+            
+            if (username && navRightArea) {
+                const firstLetter = username.charAt(0).toUpperCase();
+                navRightArea.innerHTML = `
+                    <a href="restaurant.html" class="btn-order"> Order Now </a>
+                    <a href="user.html" class="user-profile-icon" title="${username} Profile">
+                        ${firstLetter}
+                    </a>
+                `;
+            } else if (!username && navRightArea) {
+                navRightArea.innerHTML = `
+                    <a href="restaurant.html" class="btn-order"> Order Now </a>
+                    <a href="signin.html">Sign In</a> 
+                `;
+            }
+        }
+
+        
+        function checkAuth() {
+            updateNavForUser();
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('username');
+            window.location.href = 'signin.html';
+        }
+        
+        const chatInput = document.getElementById('chatInput');
+        const suggestionBubbles = document.getElementById('suggestionBubbles');
+        const persistentButton = document.getElementById('surpriseMePersistentBtn');
+        const sendButton = document.getElementById('sendButton');
+
+
+        function handleInputStart() {
+            if (chatInput.value.length > 0) {
+                suggestionBubbles.style.display = 'none'; 
+                persistentButton.style.display = 'inline-block'; 
+            } else {
+                suggestionBubbles.style.display = 'flex';
+                persistentButton.style.display = 'none'; 
+            }
+        }
+
+
+        chatInput.addEventListener('input', handleInputStart);
+        document.querySelectorAll('.bubble-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                chatInput.value = this.textContent;
+                handleInputStart(); 
+                if (action === 'surprise') {
+                    sendButton.click(); 
+                }
+            });
+        });
+        persistentButton.addEventListener('click', function() {
+            chatInput.value = 'Surprise me with a random dish';
+            sendButton.click(); 
+        });
+
+    </script>
+</body>
+</html>
