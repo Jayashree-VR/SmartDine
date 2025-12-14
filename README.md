@@ -223,6 +223,7 @@ Restaurant (
   veg_nonveg VARCHAR(10),
   img_url VARCHAR(2048)
 );
+```
 
 ---
 
